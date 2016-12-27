@@ -1,0 +1,44 @@
+import java.io.*;
+import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.List;
+
+import yahoofinance.*;
+import yahoofinance.histquotes.HistoricalQuote;
+
+public class test {
+	
+	public static void main(String[] args)
+	{
+		Stock stock;
+		try {
+		
+			stock = YahooFinance.get("INTC");
+			List<HistoricalQuote> queue =stock.getHistory();
+			for(int i=0;i<queue.size();i++)
+			{
+				HistoricalQuote temp = queue.get(i);
+				
+				System.out.format("Date : %s High : %s Low : %s Open : %s\n",convertDate(temp.getDate()),temp.getHigh().toString(),temp.getLow().toString(),temp.getOpen().toString());
+		
+				//System.out.format("Symbol : %s Date : %s High : %ld Low : %ld Open : %ld\n",temp.getSymbol(),temp.getDate().toString(),temp.getHigh().longValue(),temp.getLow().longValue(),temp.getOpen().longValue());
+			}
+			
+			
+			
+			stock.print();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	public static String convertDate(Calendar calen)
+	{
+		String ret = String.valueOf(calen.get(Calendar.YEAR));
+		ret = ret.concat(String.valueOf(calen.get(Calendar.MONTH)));
+		ret = ret.concat(String.valueOf(calen.get(Calendar.DATE)));	
+		return ret;
+	}
+}
